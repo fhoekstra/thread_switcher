@@ -12,3 +12,6 @@ You have to close and restart the tool for the changes to take effect.
 
 # Compatibility
 This tool was only tested on Windows 10 and will not run on Linux without changes.
+
+# But how do I overclock Zen 3 / Ryzen 5000?
+I can recommend this guide: https://www.reddit.com/r/Amd/comments/khtx1o/guide_zen_3_overclocking_using_curve_optimizer/
