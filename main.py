@@ -4,9 +4,9 @@ import time
 
 cfg = {
     ##########################################################################
-    "process_to_switch": "prime95",  # name of process                       #
+    "process_to_switch": "prime95",  # name of process (e.g. "cinebench")    #
     "thread_num": 12,  # number of threads                                   #
-    "sec_between_switch": 10,  # number of seconds between switching threads #
+    "sec_between_switch": 5,  # number of seconds between switching threads  #
     "hyper_threading": True,                                                 #
     ##########################################################################
 }
@@ -47,7 +47,8 @@ class Thread:
                 self.index, self.friendly_number, self.total_num
 
     def __repr__(self):
-        return (f"Thread {self.friendly_number}/{self.total_num} ;"
+        return (f"Thread {self.friendly_number}/{self.total_num}  "
+                f"{' ' if self.friendly_number < 10 else ''}"  # padding
                 f"Core {self.core_friendly_number}/{self.core_total}")
 
     @property
