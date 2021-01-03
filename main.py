@@ -1,5 +1,6 @@
 from subprocess import run
 import time
+from datetime import datetime as dt
 
 
 cfg = {
@@ -56,6 +57,13 @@ class Thread:
         return str(2**self.index)
 
 
+def log_starting_thread(thread: Thread):
+    message = f"{dt.now()} switching to {thread}"
+    print(message)
+    with open('log.txt', 'a') as f:
+        f.write(message + '\r\n')
+
+
 def get_infinite_iterator(collection: list):
     length = len(collection)
     i = 0
@@ -72,7 +80,7 @@ def main(cfg: dict):
 
     try:
         for thread in get_infinite_iterator(thread_list):
-            print(f"switching to {thread}")
+            log_starting_thread(thread)
             run('Powershell "ForEach($PROCESS in'
                 + f' GET-PROCESS {cfg["process_to_switch"]})'
                 + ' { $PROCESS.ProcessorAffinity=' + thread.affinity_mask

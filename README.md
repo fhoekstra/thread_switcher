@@ -4,7 +4,7 @@ Useful if you are playing with curve optimizer on Ryzen 5000 processors.
 This allows you to test the stability of different cores separately.
 
 # Get started
-Download main.py and run.bat and put them in the same folder.
+Download the files in this repository and put them in the same folder.
 To run the tool, install Python 3.9 from the Microsoft Store then simply double-click run.bat and the tool will keep trying to switch prime95 to a different core.
 To change the settings (such as which process (prime95 or something else) to switch and how often and your number of cores,
 open main.py with a textm editor and edit the configuration at the top of the file.
