@@ -6,6 +6,7 @@ from datetime import datetime as dt
 cfg = {
     ##########################################################################
     "process_to_switch": "prime95",  # name of process (e.g. "cinebench")    #
+    "starting_core": 1, # Core to start iteration                            #
     "thread_num": 12,  # number of threads                                   #
     "sec_between_switch": 5,  # number of seconds between switching threads  #
     "hyper_threading": True,                                                 #
@@ -66,10 +67,13 @@ def log_starting_thread(thread: Thread):
 
 def get_infinite_iterator(collection: list):
     length = len(collection)
-    i = 0
+    i = (cfg["starting_core"] - 1) * 2
+    if i >= length or i < 0:
+        print("Invalid Core number")
+        quit()
     while True:
         if i >= length:
-            i = 0
+            i = (cfg["starting_core"] - 1) * 2
         yield collection[i]
         i += 1
 
