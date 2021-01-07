@@ -54,7 +54,7 @@ class Thread:
 
     @property
     def affinity_mask(self):
-        return str(2**self.index)
+        return str(2**self.index) if self.index < 32 else str(2**31)
 
 
 def log_starting_thread(thread: Thread):
