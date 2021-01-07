@@ -6,9 +6,9 @@ from datetime import datetime as dt
 cfg = {
     ##########################################################################
     "process_to_switch": "prime95",  # name of process (e.g. "cinebench")    #
-    "thread_num": 12,  # number of threads                                   #
+    "core_num": 6,  # number of cores                                        #
     "sec_between_switch": 5,  # number of seconds between switching threads  #
-    "hyper_threading": True,                                                 #
+    "hyper_threading": True,    # whether your CPU has hyperthreading        #
     ##########################################################################
 }
 
@@ -75,8 +75,10 @@ def get_infinite_iterator(collection: list):
 
 
 def main(cfg: dict):
-    thread_list = [Thread(cfg["thread_num"], index=n)
-                   for n in range(cfg["thread_num"])]
+    thread_num = (cfg["hyper_threading"] + 1) * cfg["core_num"]
+    thread_list = [Thread(thread_num, index=n,
+                          hyper_threading=cfg["hyper_threading"])
+                   for n in range(thread_num)]
 
     try:
         for thread in get_infinite_iterator(thread_list):
