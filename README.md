@@ -8,8 +8,10 @@ This allows you to test the stability of different cores separately.
 
 Download the files in this repository and put them in the same folder.
 To run the tool, install Python 3.9 from [python.org](https://www.python.org) then simply double-click run.bat and the tool will keep trying to switch prime95 to a different core.
-To change the settings (such as which process (prime95 or something else) to switch and how often and your number of cores,
-open main.py with a text editor and edit the configuration at the top of the file.
+
+DO NOT FORGET to:
+open settings.py with a text editor and edit the necessary settings in the ###.
+
 You have to close and restart the tool for the changes to take effect.
 
 ## Compatibility
