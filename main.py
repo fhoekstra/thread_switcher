@@ -1,14 +1,24 @@
 from subprocess import run
 import time
 from datetime import datetime as dt
+from datetime import timedelta
+from typing import Iterable, Optional
 
 
 cfg = {
     ##########################################################################
-    "process_to_switch": "prime95",  # name of process (e.g. "cinebench")    #
-    "core_num": 6,  # number of cores                                        #
-    "sec_between_switch": 5,  # number of seconds between switching threads  #
-    "hyper_threading": True,    # whether your CPU has hyperthreading        #
+    "process_to_switch": "prime95",
+    # name of process (e.g. "cinebench")
+    "core_num": 6,
+    # number of cores
+    "switch_every": timedelta(minutes=5),
+    # time between switching threads
+    "sync_to": timedelta(minutes=1),
+    # synchronize with wall time or put None for no synchronization
+    "load_every_thread_separately": False,
+    # legacy behavior TODO implement new behavior
+    "hyper_threading": True,
+    # whether your CPU has 2 threads per core
     ##########################################################################
 }
 
@@ -64,7 +74,7 @@ def log_starting_thread(thread: Thread):
         f.write(message + '\r\n')
 
 
-def get_infinite_iterator(collection: list):
+def get_infinite_iterator(collection: list[Thread]) -> Iterable[Thread]:
     length = len(collection)
     i = 0
     while True:
@@ -75,23 +85,47 @@ def get_infinite_iterator(collection: list):
 
 
 def main(cfg: dict):
-    thread_num = (cfg["hyper_threading"] + 1) * cfg["core_num"]
-    thread_list = [Thread(thread_num, index=n,
-                          hyper_threading=cfg["hyper_threading"])
-                   for n in range(thread_num)]
+    threads = get_threads(cfg["hyper_threading"], cfg["core_num"])
 
     try:
-        for thread in get_infinite_iterator(thread_list):
+        for thread in get_infinite_iterator(threads):
             log_starting_thread(thread)
-            run('Powershell "ForEach($PROCESS in'
-                + f' GET-PROCESS {cfg["process_to_switch"]})'
-                + ' { $PROCESS.ProcessorAffinity=' + thread.affinity_mask
-                + '}"')
-            time.sleep(cfg["sec_between_switch"])
+            set_active_core_for(thread, cfg["process_to_switch"])
+            wait_and_sync(cfg["switch_every"], cfg["sync_to"])
     except KeyboardInterrupt as e:
         print("Stopped")
         raise(e)
         quit()
+
+
+def get_threads(hyper_threading: bool, core_num: int) -> list[Thread]:
+    thread_num = (int(hyper_threading) + 1) * core_num
+    return [Thread(thread_num, index=n,
+                   hyper_threading=hyper_threading)
+            for n in range(thread_num)]
+
+
+def set_active_core_for(thread: Thread, process_name: str) -> None:
+    run('Powershell "ForEach($PROCESS in'
+        + f' GET-PROCESS {process_name})'
+        + ' { $PROCESS.ProcessorAffinity=' + thread.affinity_mask
+        + '}"')
+
+
+def wait_and_sync(waiting_period: timedelta,
+                  sync: Optional[timedelta]) -> None:
+    if sync is not None:
+        wait_for_sync(sync)
+    wait(waiting_period)
+
+
+def wait_for_sync(sync: timedelta) -> None:
+    pass
+    # TODO implement this
+
+
+def wait(period: timedelta) -> None:
+    time.sleep(period.total_seconds())
 
 
 if __name__ == '__main__':
