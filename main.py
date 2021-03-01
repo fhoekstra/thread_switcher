@@ -12,7 +12,7 @@ def main(cfg: dict):
     cores = get_cores(cfg["hyper_threading"], cfg["core_num"])
 
     try:
-        for core in get_infinite_iterator(cores):
+        for core in get_infinite_core_iterator(cores, cfg["starting_core"]):
             log_starting_core(core)
             set_active_core_for(core, cfg["process_to_switch"])
             wait_and_sync(cfg["switch_every"], cfg["sync_on_clock_minute"])
@@ -27,9 +27,35 @@ def log_starting_core(core: Core):
     log(message)
 
 
-def get_infinite_iterator(collection: list[Core]) -> Iterable[Core]:
+def get_infinite_core_iterator(cores: list[Core],
+                               starting_core_friendly_number: int) \
+        -> Iterable[Core]:
+    starting_index = get_index_of_core_in(starting_core_friendly_number, cores)
+    return get_infinite_iterator(cores, starting_index)
+
+
+def get_index_of_core_in(friendly_number: int, cores: list[Core]) -> int:
+    try:
+        the_core = get_the_core_with(friendly_number, cores)
+        return cores.index(the_core)
+    except StopIteration:
+        raise ValueError("starting core number should be one of core numbers:"
+                         f"{list(map(lambda x: x.friendly_number, cores))}")
+
+
+def get_the_core_with(friendly_number: int, cores: list[Core]) -> Core:
+
+    def is_core_with_number(core: Core):
+        return core.friendly_number == friendly_number
+
+    return next(filter(is_core_with_number, cores))
+
+
+def get_infinite_iterator(collection: list,
+                          starting_index: int) \
+        -> Iterable:
     length = len(collection)
-    i = 0
+    i = starting_index
     while True:
         if i >= length:
             i = 0
