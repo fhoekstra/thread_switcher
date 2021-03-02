@@ -1,6 +1,6 @@
 # thread_switcher
 
-Tool to force a single-threaded benchmark tool to switch to a different core periodically.
+Tool to force a benchmark tool to switch to a different core periodically.
 Useful if you are playing with curve optimizer on Ryzen 5000 processors.
 This allows you to test the stability of different cores separately.
 
@@ -13,6 +13,11 @@ DO NOT FORGET to:
 open settings.py with a text editor and edit the necessary settings in the ###.
 
 You have to close and restart the tool for the changes to take effect.
+
+## NOTE ABOUT NEW VERSION AS OF March 2021:
+
+The core now loads a full physical core, which for most of you, notably those running 5600X, 5800X, 5900X or 5950X CPU's, will be 2 threads.
+So make sure to run prime95 with at least 2 threads now when using this tool, **NOT SINGLE-THREADED**, for maximum stress on a single physical CPU core.
 
 ## Compatibility
 
