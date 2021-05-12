@@ -1,4 +1,4 @@
-from core import Core
+from src.core import Core
 import unittest
 
 

@@ -1,4 +1,8 @@
+from pathlib import Path
 from datetime import datetime
+
+THIS_FILE = Path(__file__)
+LOG_FILE = THIS_FILE.parent.parent / 'log.txt'
 
 
 def format_date_time(date_time: datetime):
@@ -7,5 +11,5 @@ def format_date_time(date_time: datetime):
 
 def log(message):
     print(message)
-    with open('log.txt', 'a') as f:
+    with open(LOG_FILE, 'a') as f:
         f.write(message + '\r\n')

@@ -22,7 +22,8 @@ other_options = {
     "sync_on_clock_minute": True,
     # synchronize with wall time because prime95 only logs time in hh:mm
     "starting_core": 1
-    # 1-indexed (1 is first) core number to start testing from
+    # 1-indexed (1 is first, total number of cores is last index)
+    # core number to start testing from
 }
 
 

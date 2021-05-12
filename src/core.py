@@ -18,15 +18,14 @@ class Core:
                 and (friendly_number != index + 1)):
             raise ValueError("index must be 1 lower than friendly_number")
 
-        self.total_num = total_num
-
         if index is not None:
             self.index = index
             self.friendly_number = index + 1
         else:
-            self.friendly_number = friendly_number
+            self.friendly_number: int = friendly_number
             self.index = friendly_number - 1
 
+        self.total_num = total_num
         self.hyper_threading = hyper_threading
 
     def __repr__(self):
@@ -46,9 +45,17 @@ class Core:
 
     @property
     def affinity_mask(self):
-        masks_per_thread = map(_get_mask_from_thread, self.thread_indices)
+        masks_per_thread = map(self._get_mask_from_thread, self.thread_indices)
         combined_mask = reduce(bitwise_or, masks_per_thread)
         return str(combined_mask)
+
+    @classmethod
+    def _get_mask_from_thread(cls, index):
+        return cls._limit_for_32_bit(2 ** index)
+
+    @staticmethod
+    def _limit_for_32_bit(x: int) -> int:
+        return x if x < 2 ** 31 else 2 ** 30
 
 
 def get_cores(hyper_threading: bool, core_num: int) -> list[Core]:
@@ -57,9 +64,12 @@ def get_cores(hyper_threading: bool, core_num: int) -> list[Core]:
             for n in range(core_num)]
 
 
-def _get_mask_from_thread(index):
-    return _limit_for_32_bit(2**index)
-
-
-def _limit_for_32_bit(x: int) -> int:
-    return x if x < 2**31 else 2**30
+def get_index_of_core_in(friendly_number: int, cores: list[Core]) -> int:
+    try:
+        [the_core] = (core
+                      for core in cores
+                      if core.friendly_number == friendly_number)
+        return cores.index(the_core)
+    except ValueError:
+        raise ValueError("starting core number should be one of core numbers:"
+                         f"{list(map(lambda x: x.friendly_number, cores))}")
