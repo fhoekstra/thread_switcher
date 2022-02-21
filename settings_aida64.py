@@ -17,8 +17,11 @@ necessary = {
 
 # The below are optional
 other_options = {
-    "switch_every": timedelta(minutes=5),
+    "switch_every": timedelta(minutes=15),
     # time between switching threads
+    # Changed aida64 per-core duration from 5 minutes to 15 minutes due to
+    # the recommendation here:
+    # https://www.reddit.com/r/Amd/comments/krjnc4/advanced_guide_curve_optimizer_stability_test_and/
     "sync_on_clock_minute": True,
     # synchronize with wall time because prime95 only logs time in hh:mm
     "starting_core": 1
