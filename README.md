@@ -10,7 +10,7 @@ Download the files in this repository and put them in the same folder.
 To run the tool, install Python 3.9 from [python.org](https://www.python.org) then simply double-click main.py (or run.bat) and the tool will keep trying to switch prime95 to a different core.
 
 **DO NOT FORGET to**:
-open settings_thread_switcher_prime95.py with a text editor and edit the necessary settings in the ###.
+open the relevant settings file, either `settings_prime95.py` or `settings_aida64.py` with a text editor and edit the necessary settings in the ###.
 
 You have to close and restart the tool for the changes to take effect.
 
