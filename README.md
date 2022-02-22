@@ -14,9 +14,9 @@ open the relevant settings file, either `settings_prime95.py` or `settings_aida6
 
 You have to close and restart the tool for the changes to take effect.
 
-For running aida64, you need to also modify settings_thread_switcher_prime95.py. Note, this bat must be run as admin.
-- To always run as admin, you may:
-1. Create a shortcut to settings_thread_switcher_prime95.py
+For running thread switcher with AIDA64, you need to also modify `settings_aida64.py`. Note, this bat must be run as admin.
+- To always run `run_thread_switcher_aida64.bat` admin, you may:
+1. Create a shortcut to `run_thread_switcher_aida64.bat`
 2. Right-click -> properties -> shortcut tab -> advanced -> enable "Run as administrator"
 
 ## NOTE ABOUT NEW VERSION AS OF March 2021:
