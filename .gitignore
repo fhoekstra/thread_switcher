@@ -3,3 +3,5 @@
 venv
 log.txt
 *.pyc
+/settings.py
+/log.txt
