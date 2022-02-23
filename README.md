@@ -30,4 +30,9 @@ This tool was only tested on Windows 10 and will not run on Linux without change
 
 ## But how do I overclock Zen 3 / Ryzen 5000?
 
-I can recommend this guide: <https://www.reddit.com/r/Amd/comments/khtx1o/guide_zen_3_overclocking_using_curve_optimizer/>
+I can recommend these guides:
+<https://www.reddit.com/r/Amd/comments/krjnc4/advanced_guide_curve_optimizer_stability_test_and/>
+This guide gets you the most optimal result without being too much work or reading. The settings in this repository are set to the recommendations from this guide.
+
+<https://www.reddit.com/r/Amd/comments/khtx1o/guide_zen_3_overclocking_using_curve_optimizer/>
+This one is very useful for understanding what is happening when overclocking Ryzen 5000 processors.
